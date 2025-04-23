@@ -14,11 +14,12 @@ This Python script automates the process of sending messages via [Google Voice](
 ---
 
 ## 📂 Folder Structure
-├── google-voice-automation/
+```bash
+├── google-voice-automation/ 
 │ ├── google_voice_automation.py
 │ ├── requirements.bat
 │ ├── run.bat
-
+```
 ---
 
 ## ⚙️ Requirements
