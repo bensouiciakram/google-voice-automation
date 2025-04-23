@@ -14,7 +14,10 @@ This Python script automates the process of sending messages via [Google Voice](
 ---
 
 ## 📂 Folder Structure
-
+├── google-voice-automation/
+│ ├── google_voice_automation.py
+│ ├── requirements.bat
+│ ├── run.bat
 
 ---
 
@@ -44,4 +47,10 @@ This Python script automates the process of sending messages via [Google Voice](
    - Cell B2: Password
   
  Ensure the Excel file is open and loaded in the correct order before running the script.
+
+## 🚀 Usage
+```bash
+python google_voice_automation.py
+```
+Make sure the Excel workbook is open in Excel before running the script.
 
