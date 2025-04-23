@@ -1,7 +1,8 @@
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright,Page
 from playwright_stealth import stealth_sync
 from time import sleep 
 import win32com.client
+from win32com.client import CDispatch
 import pandas as pd 
 import traceback 
 import pickle 
@@ -15,7 +16,14 @@ text_worksheet = excel_file.Worksheet(2)
 
 
 # helper functions ------------------------------------------------------------------------------------------------------#
-def send_text(page,row):
+def send_text(page:Page,row:int):
+    """
+    Sends a text message through Google Voice using the provided page object and data from a specific row in the Excel sheet.
+
+    Parameters:
+        page (playwright.sync_api.Page): The current Playwright page instance.
+        row (int): The row number in the Excel sheet containing phone number, message text, and delay time.
+    """
     global text_worksheet 
     phone = text_worksheet.Cells(row,'M')
     text = text_worksheet.Cells(row,'N')
@@ -35,7 +43,14 @@ def send_text(page,row):
     page.click('button[aria-label="Send message"]')
     sleep(delay)
 
-def login(auth_sheet,page):
+def login(auth_sheet:CDispatch,page:Page):
+    """
+    Logs into Google Voice using credentials from the Excel auth sheet.
+
+    Parameters:
+        auth_sheet: Excel worksheet object containing email (cell A2) and password (cell B2).
+        page (playwright.sync_api.Page): The Playwright page object to use for navigation and interaction.
+    """
     page.goto('https://voice.google.com/',timeout=60000)
 
     page.wait_for_selector('//a[contains(text(),"Sign in")]')
@@ -57,6 +72,10 @@ def login(auth_sheet,page):
     page.goto('https://voice.google.com/u/0/messages',timeout=60000)
 
 if __name__ == '__main__':
+    """
+    Main execution block. Launches Playwright, performs login, and iterates over the Excel sheet rows
+    to send messages using Google Voice.
+    """
     with sync_playwright() as p :
         browser = p.chromium.launch(headless=False)
         context = browser.new_context()
